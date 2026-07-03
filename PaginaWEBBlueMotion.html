@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Motion S.A.S - Ecommerce</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #FBF9F6; /* Crema lino suave */
+            color: #2B3A4A; /* Azul marino ceniza */
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            letter-spacing: 0.03em;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, .nav-logo {
+            font-family: 'Cambria', 'Georgia', 'Times New Roman', serif;
+            font-weight: 400;
+            color: #2B3A4A;
+            text-transform: uppercase;
+        }
+
+        /* Navbar Limpio y Fino */
+        nav {
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #EAE5DF;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0 20px;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 20px;
+            letter-spacing: 3px;
+            text-decoration: none;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .nav-tabs button {
+            background: none;
+            border: none;
+            color: #2B3A4A;
+            padding: 10px 15px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-tabs button:hover {
+            color: #D4A396;
+        }
+
+        .nav-tabs button.active {
+            color: #D4A396;
+            font-weight: 600;
+        }
+
+        .nav-tabs button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -25px;
+            left: 15px;
+            right: 15px;
+            height: 2px;
+            background-color: #D4A396;
+        }
+
+        /* Banner Principal (Hero) */
+        .hero-section {
+            background: linear-gradient(135deg, #F5EFF0 0%, #EAE2E3 100%);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid #EAE5DF;
+            margin-bottom: 30px;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .hero-content h2 {
+            font-size: 28px;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .hero-content p {
+            font-size: 14px;
+            color: #5C6B73;
+            font-style: italic;
+            margin-bottom: 25px;
+        }
+
+        .category-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #2B3A4A;
+            color: #2B3A4A;
+            padding: 8px 20px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            background-color: #2B3A4A;
+            color: #FBF9F6;
+        }
+
+        /* Contenedores de pestañas */
+        .tab-content {
+            display: none;
+            max-width: 1200px;
+            margin: 0 auto 60px auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* Clase de control para mostrar con CSS directo */
+        .tab-content.active {
+            display: block !important;
+        }
+
+        .section-title {
+            font-size: 22px;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 1px;
+            background-color: #D4A396;
+        }
+
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            border: 1px solid #F0ECE6;
+        }
+
+        /* Catálogo Grid */
+        .grid-productos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 15px;
+        }
+
+        .producto-card {
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            border: 1px solid #F0ECE6;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .producto-visual {
+            background-color: #F4EFF2;
+            height: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            color: #7A8B99;
+            font-size: 13px;
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid #F0ECE6;
+        }
+
+        .producto-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #FFFFFF;
+            padding: 4px 10px;
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border-radius: 20px;
+            border: 1px solid #EAE5DF;
+        }
+
+        .producto-info {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .producto-info h3 {
+            font-size: 18px;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+
+        .producto-detalles {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #5C6B73;
+            margin-bottom: 15px;
+        }
+
+        .producto-detalles strong {
+            color: #2B3A4A;
+        }
+
+        .producto-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #F0ECE6;
+        }
+
+        .producto-precio {
+            font-weight: 600;
+            font-size: 16px;
+            color: #2B3A4A;
+        }
+
+        /* Formularios */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #5C6B73;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #DCD6CD;
+            border-radius: 4px;
+            background-color: #FBF9F6;
+            font-size: 14px;
+            color: #2B3A4A;
+        }
+
+        .btn-solid {
+            background-color: #D4A396; /* Rosa arcilla desaturado */
+            color: #FFFFFF;
+            border: none;
+            padding: 14px 28px;
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-solid:hover {
+            background-color: #2B3A4A;
+        }
+
+        .metodos-pago {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .metodo-item {
+            flex: 1;
+            border: 1px solid #DCD6CD;
+            padding: 14px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            background-color: #FFFFFF;
+        }
+
+        .metodo-item.selected {
+            border-color: #D4A396;
+            background-color: #FBF9F6;
+            color: #D4A396;
+            font-weight: 600;
+        }
+
+        /* Sección QR Vectorial Real */
+        .qr-section {
+            text-align: center;
+            padding: 30px;
+            background-color: #FFFFFF;
+            border: 1px dashed #DCD6CD;
+            border-radius: 8px;
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-vector {
+            margin: 15px 0;
+            width: 140px;
+            height: 140px;
+        }
+
+        footer {
+            background-color: #FFFFFF;
+            border-top: 1px solid #EAE5DF;
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #7A8B99;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="nav-logo" onclick="openTab('empresa'); return false;">Blue Motion</a>
+            <div class="nav-tabs">
+                <button id="btn-empresa" class="active" onclick="openTab('empresa')">Inicio</button>
+                <button id="btn-nosotros" onclick="openTab('nosotros')">Quiénes Somos</button>
+                <button id="btn-catalogo" onclick="openTab('catalogo')">Colección</button>
+                <button id="btn-pagos" onclick="openTab('pagos')">Pasarela</button>
+                <button id="btn-contacto" onclick="openTab('contacto')">Contacto</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <div class="hero-content">
+            <h2>Estética contemporánea con comodidad funcional</h2>
+            <p>"Resalta tu figura sintiéndote cómoda"</p>
+            <div class="category-buttons">
+                <button class="btn-outline" onclick="openTab('catalogo')">Ver Jeans</button>
+                <button class="btn-outline" onclick="openTab('catalogo')">Bicicleteros</button>
+                <button class="btn-outline" onclick="openTab('catalogo')">Faldas</button>
+            </div>
+        </div>
+    </header>
+
+    <div id="empresa" class="tab-content active">
+        <div class="card">
+            <h2 class="section-title">Identidad Corporativa</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 30px auto; color: #5C6B73; font-size: 15px; line-height: 1.6;">
+                Estructurada bajo el marco técnico de la <strong>NIIF para las PYMES</strong> y registrada bajo la actividad económica <strong>CIIU 4771</strong>, dedicada al comercio al por menor de prendas de vestir.
+            </p>
+            <div style="border-top: 1px solid #F0ECE6; padding-top: 25px; margin-top: 25px; font-size: 14px; line-height: 1.8;">
+                <p><strong>Razón Social:</strong> Blue Motion S.A.S</p>
+                <p><strong>Especialidad:</strong> Ropa femenina con textiles premium y siluetas confortables.</p>
+                <p><strong>Origen:</strong> Bogotá, Colombia.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="nosotros" class="tab-content">
+        <div class="card">
+            <h2 class="section-title">Nuestra Misión</h2>
+            <p style="line-height: 1.8; text-align: center; max-width: 800px; margin: 0 auto; font-size: 15px; color: #5C6B73;">
+                Somos una empresa dedicada al diseño y comercialización de pantalones y faldas que combinan estética contemporánea con comodidad funcional. Nos enfocamos en empoderar a nuestros clientes para que se sientan bien consigo mismos, resaltando lo que valoran de su apariencia física. A través de materiales de alta calidad y atención personalizada, buscamos ofrecer prendas que reflejen autenticidad, estilo y bienestar.
+            </p>
+        </div>
+    </div>
+
+    <div id="catalogo" class="tab-content">
+        <h2 class="section-title">Nuestra Colección Denim</h2>
+        <div class="grid-productos">
+            <div class="producto-card">
+                <div class="producto-visual">
+                    <div>
+                        <p style="font-size: 36px; color: #D4A396; opacity: 0.4; font-weight: bold;">01</p>
+                        <p><strong>Jean Bota Campana</strong><br>Ref: 23-423</p>
+                    </div>
+                    <span class="producto-badge">Nueva 2025</span>
+                </div>
+                <div class="producto-info">
+                    <div>
+                        <h3>Jean Bota Campana</h3>
+                        <p class="producto-detalles">
+                            <strong>Textil:</strong> Denim Stretch de alta compresión (65%-80% Algodón, Poliéster y Elastano).<br>
+                            <strong>Estructura:</strong> Horma tipo "Push-Up" de tiro súper alto, corte corazón, pretina ancha de 3 botones, bota campana con elegante desflecado manual.
+                        </p>
+                    </div>
+                    <div class="producto-footer">
+                        <span class="producto-precio">$80.000 COP</span>
+                        <button class="btn-outline" style="padding: 6px 12px; font-size: 11px;" onclick="comprarProducto(80000, 0)">Comprar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="producto-card">
+                <div class="producto-visual">
+                    <div>
+                        <p style="font-size: 36px; color: #D4A396; opacity: 0.4; font-weight: bold;">02</p>
+                        <p><strong>Bicicletero Denim</strong><br>Ref: 2111</p>
+                    </div>
+                    <span class="producto-badge">Línea Rígida</span>
+                </div>
+                <div class="producto-info">
+                    <div>
+                        <h3>Bicicletero Denim</h3>
+                        <p class="producto-detalles">
+                            <strong>Textil:</strong> Denim Rígido tradicional de estructura pesada (100% Algodón genuino sin elásticos).<br>
+                            <strong>Estructura:</strong> Acabado con proceso de lavado Acid Wash, rotos frontales manuales, un práctico bolsillo cargo lateral y relojera.
+                        </p>
+                    </div>
+                    <div class="producto-footer">
+                        <span class="producto-precio">$50.000 COP</span>
+                        <button class="btn-outline" style="padding: 6px 12px; font-size: 11px;" onclick="comprarProducto(50000, 1)">Comprar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="producto-card">
+                <div class="producto-visual">
+                    <div>
+                        <p style="font-size: 36px; color: #D4A396; opacity: 0.4; font-weight: bold;">03</p>
+                        <p><strong>Falda Short Denim</strong><br>Ref: 2147</p>
+                    </div>
+                    <span class="producto-badge">Confort Premium</span>
+                </div>
+                <div class="producto-info">
+                    <div>
+                        <h3>Falda Short Denim</h3>
+                        <p class="producto-detalles">
+                            <strong>Textil:</strong> Denim Semi Stretch de peso medio y elongación suave (95%-98% Algodón y Elastano).<br>
+                            <strong>Estructura:</strong> Diseño híbrido con short base interno, tapas completas tipo falda, acabado inferior rústico deshilachado y rotos localizados.
+                        </p>
+                    </div>
+                    <div class="producto-footer">
+                        <span class="producto-precio">$40.000 COP</span>
+                        <button class="btn-outline" style="padding: 6px 12px; font-size: 11px;" onclick="comprarProducto(40000, 2)">Comprar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="pagos" class="tab-content">
+        <div class="card" style="max-width: 500px; margin: 0 auto;">
+            <h2 class="section-title">Finalizar Pedido</h2>
+            <form onsubmit="alert('Transacción simulada con éxito.'); return false;">
+                <div class="form-group">
+                    <label>Prenda Seleccionada</label>
+                    <select id="pago-producto" onchange="calcularTotal()">
+                        <option value="80000">Jean Bota Campana — $80.000 COP</option>
+                        <option value="50000">Bicicletero Denim — $50.000 COP</option>
+                        <option value="40000">Falda Short Denim — $40.000 COP</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Cantidad</label>
+                    <input type="number" id="pago-cantidad" min="1" value="1" oninput="calcularTotal()">
+                </div>
+                <div style="margin: 20px 0; text-align: center;">
+                    <span style="font-size: 11px; text-transform: uppercase; color: #5C6B73;">Total Estimado</span>
+                    <h3 id="total-pago" style="font-size: 22px; color: #2B3A4A; margin-top: 5px;">$80.000 COP</h3>
+                </div>
+                <button type="submit" class="btn-solid">Procesar Orden Segura</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="contacto" class="tab-content">
+        <div class="card" style="max-width: 600px; margin: 0 auto;">
+            <h2 class="section-title">Canales Oficiales</h2>
+            <div style="font-size: 14px; line-height: 2; text-align: center;">
+                <p><strong>Email:</strong> Bluemotion03@gmail.com</p>
+                <p><strong>Soporte 1:</strong> +57 323 3797253</p>
+                <p><strong>Soporte 2:</strong> +57 311 2275403</p>
+            </div>
+        </div>
+
+        <div class="qr-section">
+            <h4 style="font-size: 13px; letter-spacing: 2px;">Acceso Digital Sincronizado</h4>
+            <p style="font-size: 12px; color: #7A8B99; margin: 5px 0 15px 0;">Escanea con tu celular para abrir el portafolio corporativo</p>
+            
+            <svg class="qr-vector" viewBox="0 0 29 29" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                <path fill="#FFFFFF" d="M0 0h29v29H0z"/>
+                <path fill="#2B3A4A" d="M0 0h7v7H0zm22 0h7v7h-7zM0 22h7v7H0zm9-22h1v1H9zm2 0h2v1h-2zm3 0h1v2h-1zm2 0h1v1h-1zm2 0h1v1h-1zm-6 1h1v1h-1zm3 0h1v1h-1zm-6 1h2v1H9zm4 0h1v1h-1zm2 0h2v1h-2zm-8 1h1v2H8zm2 0h1v1h-1zm3 0h1v1h-1zm2 0h2v1h-2zm-6 1h1v1H9zm2 0h1v1h-1zm2 0h1v1h-1zm4 0h1v1h-1zm-7 1h2v1H9zm4 0h1v1h-1zm3 0h1v1h-1zm-15 2h1v1H2zm4 0h1v1H6zm3 0h1v1H9zm2 0h2v1h-2zm3 0h1v2h-1zm3 0h1v1h-1zm2 0h1v1h-1zm-15 1h2v1H1zm3 0h1v1H4zm3 0h2v1H7zm4 0h1v1h-1zm6 0h1v1h-1zm2 0h1v1h-1zm-18 1h1v1H0zm2 0h1v1H2zm1 0h1v1H3zm2 0h1v1H5zm2 0h1v1H7zm2 0h3v1H9zm4 0h1v1h-1zm2 0h1v1h-1zm1 0h1v1h-1zm2 0h1v1h-1zm-19 1h1v1H0zm2 0h2v1H2zm4 0h1v1H6zm4 0h2v1h-2zm3 0h1v1h-1zm2 0h3v1h-15zm1 0h1v1h-1zm2 0h1v1h-1zm-19 1h1v1H0zm3 0h1v1H3zm2 0h2v1H5zm2 0h1v1H7zm2 0h1v1H9zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h2v1h-2zm-17 1h1v1H2zm1 0h1v1H3zm2 0h1v1H5zm2 0h1v1H7zm3 0h2v1h-2zm4 0h1v2h-1zm2 0h2v1h-2zm-14 1h1v1H3zm1 0h1v1H4zm1 0h1v1H5zm3 0h1v1H8zm1 0h3v1H9zm5 0h1v1h-1zm1 0h1v1h-1zm3 0h1v1h-1zm-19 1h2v1H0zm4 0h1v1H4zm3 0h1v1H7zm2 0h1v1H9zm4 0h2v1h-2zm3 0h1v1h-1zm-13 1h1v1H5zm1 0h2v1H6zm4 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm1 0h1v1h-1zm1 0h1v1h-1zm2 0h1v1h-1zm-14 1h1v1H5zm3 0h1v1H8zm2 0h1v1h-1zm1 0h1v1h-1zm5 0h1v1h-1zm1 0h1v1h-1zm1 0h1v1h-1zm1 0h1v1h-1zm-15 1h1v1H4zm2 0h1v1H6zm1 0h1v1H7zm1 0h1v1H8zm4 0h1v1h-1zm1 0h2v1h-2zm4 0h1v1h-1zm1 0h1v1h-1zm1 0h1v1h-1zm-16 1h2v1H3zm3 0h1v1H6zm1 0h1v1H7zm2 0h1v1H9zm2 0h3v1h-3zm4 0h1v1h-1zm1 0h1v1h-1zm1 0h1v1h-1zm-18 1h1v1H1zm2 0h1v1H3zm1 0h1v1H4zm3 0h1v1H7zm1 0h1v1H8zm3 0h1v1h-1zm1 0h1v1h-1zm1 0h2v1h-2zm2 0h1v1h-1zm2 0h1v1h-1zm1 0h1v1h-1zm1 0h1v1h-1zm-19 1h1v1H1zm1 0h1v1H2zm3 0h1v1H5zm3 0h1v1H8zm4 0h1v1h-1zm3 0h1v1h-1zm1 0h1v1h-1zm1 0h1v1h-1zm2 0h1v1h-1zm-19 1h1v1H0zm2 0h1v1H2zm2 0h1v1H4zm1 0h1v1H5zm2 0h1v1H7zm1 0h1v1H8zm1 0h1v1H9zm2 0h2v1h-2zm2 0h1v1h-1zm1 0h1v1h-1zm3 0h1v1h-1zm1 0h1v1h-1zM1 1h5v5H1zm21 0h5v5h-5zM1 23h5v5H1zM2 2h3v3H2zm21 0h3v3h-3zM2 24h3v3H2zm7-15h1v1H9zm1 0h1v1h-1zm2 0h1v1h-1zm1 0h1v1h-1zm2 0h2v1h-2zm3 0h3v1h-3zm4 0h1v1h-1zm2 0h1v1h-1zm-16 1h1v1H9zm1 0h1v1h-1zm4 0h1v1h-1zm2 0h1v1h-1zm1 0h1v1h-1zm3 0h3v1h-3zm2 0h1v1h-1zm-14 1h1v1H9zm2 0h1v1h-1zm1 0h1v1h-1zm1 0h2v1h-2zm3 0h1v1h-1zm1 0h1v1h-1zm3 0h1v1h-1zm1 0h1v1h-1zm-12 1h1v1H9zm2 0h2v1h-2zm3 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm1 0h2v1h-2zm-11 1h2v1H9zm3 0h1v1h-1zm1 0h1v1h-1zm3 0h2v1h-2zm2 0h2v1h-2zm-11 1h1v1H9zm3 0h1v1h-1zm2 0h2v1h-2zm4 0h2v1h-2zm1 0h1v1h-1z"/>
+            </svg>
+            
+            <p style="font-size: 11px; font-weight: 600; color: #D4A396; text-transform: uppercase;">Código Escaneable Activo</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Blue Motion S.A.S. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Lógica de navegación robusta basada en ID únicos directos
+        function openTab(tabId) {
+            // 1. Ocultar todos los contenedores de pestañas
+            var containers = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < containers.length; i++) {
+                containers[i].style.display = "none";
+                containers[i].classList.remove("active");
+            }
+
+            // 2. Desactivar el estado activo de todos los botones del menú
+            var buttons = document.querySelectorAll(".nav-tabs button");
+            for (var j = 0; j < buttons.length; j++) {
+                buttons[j].classList.remove("active");
+            }
+
+            // 3. Mostrar el contenedor seleccionado
+            var targetTab = document.getElementById(tabId);
+            if (targetTab) {
+                targetTab.style.display = "block";
+                targetTab.classList.add("active");
+            }
+
+            // 4. Marcar como activo el botón del menú correspondiente
+            var targetButton = document.getElementById("btn-" + tabId);
+            if (targetButton) {
+                targetButton.classList.add("active");
+            }
+
+            // Desplazar la vista al tope suavemente
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function comprarProducto(precio, selectIndex) {
+            document.getElementById("pago-producto").selectedIndex = selectIndex;
+            document.getElementById("pago-cantidad").value = 1;
+            calcularTotal();
+            openTab('pagos');
+        }
+
+        function calcularTotal() {
+            var precio = parseInt(document.getElementById("pago-producto").value);
+            var cantidad = parseInt(document.getElementById("pago-cantidad").value) || 1;
+            var total = precio * cantidad;
+            document.getElementById("total-pago").innerText = "$" + total.toLocaleString('es-CO') + " COP";
+        }
+    </script>
+</body>
+</html>
